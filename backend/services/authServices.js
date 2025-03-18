@@ -48,3 +48,12 @@ export const loginService = async (email, password, res) => {
 
    return { message: "Logged in successfully", token, user };
 };
+//Logout 
+export const logoutServices = async (res) => {
+   res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure : process.env.NODE_ENV !== "production"
+   })
+   return {message : " Logged Out Successfully"}
+} 

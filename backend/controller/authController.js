@@ -1,4 +1,4 @@
-import { registerService, loginService} from "../services/authServices.js";
+import { registerService, loginService, logoutServices} from "../services/authServices.js";
 export const signup = async (req, res) => {
     try {
         const {name, email, password} = req.body
@@ -36,3 +36,12 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+//Log out user
+export const logOutUser = async (req, res) => {
+    try {
+        const response =  await logoutServices(res);
+        res.status(200).json(response)
+    } catch (error) {
+        return res.status(500).json({ message: "Logout failed" });
+    }
+}
