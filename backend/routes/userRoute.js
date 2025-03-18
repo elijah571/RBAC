@@ -1,16 +1,25 @@
-import express from "express";
-import { protectedRoute } from "../middleware/authMiddleware.js";
-import { isAdmin } from "../middleware/roleAuth.js";
-import { deleteUser, getAllUsers, getSingleUser, updateUserProfile, updateUserRole } from "../controller/userController.js";
-export const userRoute = express.Router()
+import express from 'express';
+import { deleteUserbyId, getAllUsers, getUserById, loginUser, logoutUser, resetPassword, resetPasswordToken, signUp, updateProfile, verifyAccount } from '../controllers/userController.js';
+import { isAdmin, isAuthenticateUser } from '../middleware/authentification.js';
 
-//Get all users
-userRoute.get("/", protectedRoute, isAdmin, getAllUsers);
-//Get a single user
-userRoute.get("/:userId", protectedRoute, getSingleUser);
-//update profile
-userRoute.put('/:userId', protectedRoute, updateUserProfile);
-//update User role as admin
-userRoute.put('/role/:userId', protectedRoute, isAdmin, updateUserRole);
-// delete user  by addmin
-userRoute.delete('/delete/:userId', protectedRoute, isAdmin, deleteUser)
+export const userRoute = express.Router()
+//register user
+userRoute.post('/signup', signUp)
+//VERIFY ACCOUNT
+userRoute.post('/verify-account', verifyAccount)
+//Login Account
+userRoute.post('/login', loginUser)
+//Logout user
+userRoute.post('/logout', logoutUser)
+//reset password token request
+userRoute.post('/resetToken', isAuthenticateUser, resetPasswordToken)
+//reset Password
+userRoute.put('/reset-password/:userId',isAuthenticateUser,  resetPassword);
+// Route to update a user's profile and assign a role (only accessible to admin)
+userRoute.put('/update-user-role/:userId', isAuthenticateUser, isAdmin, updateProfile); 
+//Get All users
+userRoute.get("/", isAuthenticateUser, isAdmin, getAllUsers)
+//Get user by id
+userRoute.get('/:userId', isAuthenticateUser, isAdmin, getUserById)
+//Delete user
+userRoute.delete('/delete/:userId', isAuthenticateUser, isAdmin, deleteUserbyId)

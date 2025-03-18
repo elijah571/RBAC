@@ -1,43 +1,42 @@
-import mongoose from 'mongoose';
+import { connect } from './config/connectDB.js';
 import bcrypt from 'bcryptjs';
+import { User } from './model/users/user.js'; 
 import dotenv from 'dotenv';
-import { USER } from './model/user.js';
-import { connectDB } from './config/dataBase.js';
+import mongoose from 'mongoose';
 
+// Load environment variables from a .env file
 dotenv.config();
 
+// Connect to the MongoDB database
+connect();
+// Create an Admin user and save it to the database
 const createAdmin = async () => {
     try {
-        // Wait for database connection
-        await connectDB();
-
-        // Check if Admin already exists
-        const adminExists = await USER.findOne({ email: "elijahfx43@gmail.com" });
+        // Check if Admin already exist
+        const adminExists = await User.findOne({ email: "elijahfx43@gmail.com"});
         if (adminExists) {
             console.log('Admin user already exists.');
-            mongoose.connection.close(); // Close connection if user exists
             return;
         }
 
         // Admin user details
-        const hashedPassword = await bcrypt.hash('1234567890', 10);
-        const adminUser = new USER({
+        const adminUser = new User({
             name: 'Elijah Peter',
             email: 'elijahfx43@gmail.com',
-            password: hashedPassword,
-            role: 'Admin',
+            password: await bcrypt.hash('1234567890Pe*', 10), 
+            role: 'Admin', 
+            isVerified: true,
         });
 
         // Save the admin user to the database
         await adminUser.save();
         console.log('Admin user created successfully.');
-
+        mongoose.connection.close(); 
     } catch (error) {
         console.error('Error creating Admin user:', error);
-    } finally {
-        mongoose.connection.close(); // Ensure connection is closed after execution
+        mongoose.connection.close();
     }
 };
 
-// Run the function
+// Run the function to create the admin
 createAdmin();
