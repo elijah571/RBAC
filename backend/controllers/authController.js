@@ -4,15 +4,22 @@ import { signUp, loginUser, resetPasswordToken, resetPassword, verifyAccount } f
 export const signUpController = async (req, res) => {
     const { email, name, password } = req.body;
     try {
+        console.log("Signup request received:", req.body);
         const user = await signUp(email, name, password);
         return res.status(201).json({
             message: 'User successfully created. Check your email for verification.',
             user
         });
     } catch (error) {
-        return res.status(400).json({ message: error.message });
+        console.error("Signup error:", error.message);
+        
+        // Ensure weak password returns 400
+        const statusCode = error.message === "Password must be strong" ? 400 : 400;
+        
+        return res.status(statusCode).json({ message: error.message });
     }
 };
+
 
 // Account Verification Controller
 export const verifyAccountController = async (req, res) => {
@@ -29,22 +36,25 @@ export const verifyAccountController = async (req, res) => {
 export const loginController = async (req, res) => {
     const { email, password } = req.body;
     try {
+        console.log("Login request received:", req.body);
         const { user, token } = await loginUser(email, password);
         
-        // Set the token in an HTTP-only cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // only use https in production
-            sameSite: "strict", // mitigate CSRF attacks
-            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ message: 'Login successful', user });
+        return res.status(200).json({ message: 'Login successful', user, token }); // Added token
     } catch (error) {
-        return res.status(400).json({ message: error.message });
+        console.error("Login error:", error.message);
+
+        // Ensure incorrect credentials return 401 instead of 400
+        const statusCode = error.message === "Invalid password" ? 401 : 400;
+        return res.status(statusCode).json({ error: "Invalid credentials" }); // Updated error response
     }
 };
-
 
 // Logout Controller
 

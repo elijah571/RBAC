@@ -9,6 +9,7 @@ import {
 } from '../controllers/authController.js';
 import { isAuthenticateUser } from '../middleware/authentification.js';
 
+
 export const authRouter = express.Router();
 
 // Register a new user
