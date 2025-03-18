@@ -1,25 +1,20 @@
 import express from 'express';
-import { deleteUserbyId, getAllUsers, getUserById, loginUser, logoutUser, resetPassword, resetPasswordToken, signUp, updateProfile, verifyAccount } from '../controllers/userController.js';
-import { isAdmin, isAuthenticateUser } from '../middleware/authentification.js';
+import { deleteUserByIdController, getAllUsersController, getUserByIdController, updateProfileController } from '../controllers/userController.js';
+import { isAuthenticateUser } from '../middleware/authentification.js';
+import { isAdmin } from '../middleware/authentificationRole.js';
 
-export const userRoute = express.Router()
-//register user
-userRoute.post('/signup', signUp)
-//VERIFY ACCOUNT
-userRoute.post('/verify-account', verifyAccount)
-//Login Account
-userRoute.post('/login', loginUser)
-//Logout user
-userRoute.post('/logout', logoutUser)
-//reset password token request
-userRoute.post('/resetToken', isAuthenticateUser, resetPasswordToken)
-//reset Password
-userRoute.put('/reset-password/:userId',isAuthenticateUser,  resetPassword);
-// Route to update a user's profile and assign a role (only accessible to admin)
-userRoute.put('/update-user-role/:userId', isAuthenticateUser, isAdmin, updateProfile); 
-//Get All users
-userRoute.get("/", isAuthenticateUser, isAdmin, getAllUsers)
-//Get user by id
-userRoute.get('/:userId', isAuthenticateUser, isAdmin, getUserById)
-//Delete user
-userRoute.delete('/delete/:userId', isAuthenticateUser, isAdmin, deleteUserbyId)
+export const userRouter = express.Router();
+
+// Get all users (Only accessible by Admin)
+userRouter.get('/', isAuthenticateUser, isAdmin, getAllUsersController);
+
+// Get a user by ID (Only accessible by Admin)
+userRouter.get('/:userId', isAuthenticateUser, getUserByIdController);
+
+// Update user profile and assign a role (Only accessible by Admin)
+userRouter.put('/update-user-role/:userId', isAuthenticateUser, isAdmin, updateProfileController);
+
+// Delete user (Only accessible by Admin)
+userRouter.delete('/delete/:userId', isAuthenticateUser, isAdmin, deleteUserByIdController);
+
+

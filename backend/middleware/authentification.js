@@ -1,79 +1,35 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../model/users/user.js';
 
-// Middleware to check if user is authenticated
+// Middleware to check if the user is authenticated
 export const isAuthenticateUser = async (req, res, next) => {
-    let token;
+    let token = req.cookies?.token; // Use optional chaining to directly check for the token
 
-    // Check if the token is provided in the cookies
-    if (req.cookies && req.cookies.token) {
-        token = req.cookies.token;
-
-        if (!token) {
-            return res.status(401).json({ message: "Token is required" });
-        }
-
-        try {
-            // Verify the token using jwt.verify
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-            console.log('Decoded Token:', decoded); 
-
-            // Retrieve the user from the database using the userId from the decoded token
-            const user = await User.findById(decoded.userId);
-
-            console.log('User found:', user);  
-
-            if (!user) {
-                return res.status(404).json({ message: "User authentication not found" });
-            }
-
-            req.user = user;
-
-            next(); 
-        } catch (error) {
-            console.error('JWT Error:', error);
-            return res.status(401).json({ message: "Invalid or expired token" });
-        }
-    } else {
+    if (!token) {
         return res.status(401).json({ message: "Authorization token is missing" });
     }
-};
+
+    try {
+        // Verify the token using jwt.verify
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 
-// Admin has full access to everything, including Shipper routes
-export const isAdmin = async (req, res, next) => {
-    const user = req.user;
+        // Retrieve the user from the database using the userId from the decoded token
+        const user = await User.findById(decoded.userId);
 
-    if (!user) {
-        return res.status(403).json({ message: "User is not authenticated" });
+      
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Attach the user to the request object for downstream usage
+        req.user = user;
+
+      
+        next();
+    } catch (error) {
+        // Handle invalid or expired token errors
+        console.error('JWT Error:', error);
+        return res.status(401).json({ message: "Invalid or expired token" });
     }
-
-    if (user.role !== "Admin") {
-        return res.status(403).json({ message: "You do not have permission to access this resource" });
-    }
-
-    next();
-};
-
-//  Only allow Shippers access and admin
-export const isShipper = async (req, res, next) => {
-    const user = req.user;
-
-    if (user.role !== "Shipper" && user.role !== "Admin") {
-        return res.status(403).json({ message: "You do not have permission to access this resource" });
-    }
-
-    next();
-};
-
-//  Only allow Carriers access and  Admins access
-export const isCarrier = async (req, res, next) => {
-    const user = req.user;
-
-    if (user.role !== "Carrier" && user.role !== "Admin") {
-        return res.status(403).json({ message: "You do not have permission to access this resource" });
-    }
-
-    next(); 
 };
