@@ -8,18 +8,18 @@ const useRequestResetToken = () => {
   const requestResetToken = async (email) => {
     if (!email) {
       toast.error("Please enter your email");
-      return false; // Return false when no email is provided
+      return false; 
     }
 
     setLoading(true);
     try {
       const { data } = await axios.post("/api/auth/reset-token", { email });
       toast.success(data.message || "Reset password link sent to email.");
-      return true; // ✅ Return success
+      return true; 
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Request failed";
       toast.error(errorMessage);
-      return false; // ✅ Return failure
+      return false; 
     } finally {
       setLoading(false);
     }

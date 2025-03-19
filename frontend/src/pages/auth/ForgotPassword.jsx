@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     const success = await requestResetToken(email);
     if (success) {
       toast.success("Check your email for the reset link!");
-      setEmail(""); // Clear email field after successful request
+      setEmail("");
     }
   };
 
@@ -31,7 +31,7 @@ const ForgotPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded mb-4"
-          disabled={loading} // Prevent input while loading
+          disabled={loading} 
         />
         <button
           type="submit"

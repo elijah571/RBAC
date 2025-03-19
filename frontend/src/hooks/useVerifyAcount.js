@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
 const useVerifyAccount = () => {
-  const { setAuthUser } = useAuthContext(); // Access setAuthUser from context
+  const { setAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
 
   const verifyAccount = async (verificationToken) => {
@@ -16,15 +16,15 @@ const useVerifyAccount = () => {
 
       toast.success(data.message || "Account verified successfully!");
 
-      // ✅ Save verified user to localStorage & context using "user" key
+   
       localStorage.setItem("user", JSON.stringify(data.user));
       setAuthUser(data.user);
 
-      return { success: true, user: data.user }; // Return success response
+      return { success: true, user: data.user };
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Verification failed";
       toast.error(errorMessage);
-      return { success: false, error: errorMessage }; // Return failure response
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }

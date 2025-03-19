@@ -36,11 +36,11 @@ const useSignup = () => {
       setAuthUser(data);
       console.log("Signup response:", data);
 
-      return { success: true };  // ✅ Return success status
+      return { success: true };
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Something went wrong";
       toast.error(errorMessage);
-      return { success: false, error: errorMessage }; // ✅ Return failure status
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }

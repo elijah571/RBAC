@@ -11,7 +11,7 @@ const VerifyAccount = () => {
     e.preventDefault();
     const response = await verifyAccount(verificationToken);
     if (response) {
-      navigate("/login"); // Redirect to login after successful verification
+      navigate("/login");
     }
   };
 
@@ -26,7 +26,7 @@ const VerifyAccount = () => {
             value={verificationToken}
             onChange={(e) => setVerificationToken(e.target.value)}
             className="w-full p-2 border rounded-md mb-4 text-center tracking-widest"
-            maxLength={6} // Limit input to 6 characters
+            maxLength={6} 
           />
           <button
             type="submit"

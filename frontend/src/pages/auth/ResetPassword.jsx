@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import useResetPassword from "../../hooks/useResetPassword";
 
 const ResetPassword = () => {
-  const { resetToken } = useParams(); // Get resetToken from URL params
+  const { resetToken } = useParams();
   const [newPassword, setNewPassword] = useState("");
   const { loading, resetPassword } = useResetPassword();
 
@@ -15,7 +15,7 @@ const ResetPassword = () => {
 
     if (response.success) {
       alert("Password reset successful! You can now log in.");
-      window.location.href = "/login"; // Redirect to login page
+      window.location.href = "/login";
     }
   };
 

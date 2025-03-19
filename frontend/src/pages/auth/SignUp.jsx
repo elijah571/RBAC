@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import useSignup from "../../hooks/useSignup";
 
 const SignUp = () => {
   const { loading, signup } = useSignup();
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,7 +20,7 @@ const SignUp = () => {
     e.preventDefault();
     const response = await signup(formData);
   
-    console.log("Signup success:", response); // Debugging log
+    console.log("Signup success:", response); 
   
     if (response?.success) {
       navigate("/verify-account");

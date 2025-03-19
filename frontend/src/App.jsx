@@ -8,6 +8,8 @@ import { useAuthContext } from './context/AuthContext';
 import VerifyAccount from './pages/auth/VerifyAccount';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
 
 const App = () => {
   const { authUser } = useAuthContext();
@@ -21,6 +23,9 @@ const App = () => {
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} /> 
+        <Route element={<ProtectedAdminRoute/>}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
       </Routes>
       <Toaster />
     </div>
