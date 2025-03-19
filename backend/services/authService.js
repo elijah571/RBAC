@@ -87,7 +87,7 @@ export const resetPasswordToken = async (email) => {
 
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpiresAt = resetTokenExpiresAt;
-       const resetLink = `https://yourdomain.com/reset-password/${resetToken}`;
+       const resetLink = `https://rbac-authentification.onrender.com/reset-password/${resetToken}`;
     await user.save();
     await sendResetEmail(email, resetLink);
 
