@@ -1,131 +1,94 @@
-RBAC - User Authentication and Management System
+RBAC - Role-Based Access Control API
 
-This is a User Authentication and Management system built using Express.js and MongoDB with JWT for token-based authentication. The project supports user registration, login, password reset, account verification, role management (admin, shipper, carrier, user), and profile updates. The system has several protected routes based on user roles, including admin access for managing other users.
+This is a Role-Based Access Control (RBAC) API built using Node.js, Express, MongoDB, and JWT authentication. It provides authentication and authorization mechanisms for managing users, roles, and access levels.
 
-Features
-User Registration: Users can register with their name, email, and password.
-Account Verification: After registration, users receive a verification token via email to activate their account.
-Login and Logout: Users can log in with their credentials and logout via a secure token-based session.
-Password Reset: Users can reset their password by receiving a reset token via email.
-Admin Role: Admin users can manage (update, delete) any user profiles and assign roles.
-Role-based Access Control: Protect routes based on user roles (Admin, Shipper, Carrier, User).
-Middleware Authentication: Ensures only authenticated and authorized users can access certain routes.
-Technologies Used
-Backend: Express.js
-Database: MongoDB
-Authentication: JWT (JSON Web Token)
-Password Encryption: bcryptjs
-Input Validation: validator
-Email Handling: Send verification and reset password emails using custom email functions.
-Environment Variables: dotenv for managing secrets (e.g., JWT secret, email settings).
-Setup Instructions
-Prerequisites
-Node.js (v14+)
-MongoDB (You can use MongoDB Atlas for cloud or install MongoDB locally)
-Postman or any API testing tool to test the endpoints
-Installation
-Clone the repository to your local machine:
+Project Structure
 
-bash
-Copy code
-git clone https://github.com/yourusername/project-name.git
-cd project-name
-Install the necessary dependencies:
+RBAC/
+│── backend/
+│ ├── controllers/ # Handles API request logic
+│ ├── routes/ # Defines API routes
+│ ├── services/ # Business logic
+│ ├── models/ # Mongoose database models
+│ ├── test/ # Contains test files (auth.test.js)
+│ ├── app.js # Main application file
+│ ├── server.js # Starts the server
+│ ├── config/ # Environment variables & config files
+│── docs/
+│ ├── RBAC-API.postman_collection.json # Postman API documentation
+│── README.md # API documentation file
+│── .env # Environment variables (Not included in repo)
+│── package.json # Dependencies & scripts
+│── jest.config.mjs # Jest configuration
 
-bash
-Copy code
-npm install
-Create a .env file in the root of the project and add the following environment variables:
+Installation and Setup
 
+Clone the repository
+sh
+Copy
+Edit
+git clone https://github.com/yourusername/RBAC.git  
+cd RBAC/backend  
+Install dependencies
+sh
+Copy
+Edit
+npm install  
+Set up environment variables
+Create a .env file in the backend/ directory and add the following:
 env
-Copy code
-JWT_SECRET=your_jwt_secret
-NODE_ENV=production
-MONGO_URI=your_mongodb_connection_string
-EMAIL_HOST=your_email_host
-EMAIL_PORT=your_email_port
-EMAIL_USER=your_email_user
-EMAIL_PASSWORD=your_email_password
-Start the server:
+Copy
+Edit
+MONGO_URL=your_mongodb_connection_string  
+PORT=3000  
+JWT_SECRET=your_jwt_secret  
+NODE_ENV=development  
+Start the server
+sh
+Copy
+Edit
+npm run dev  
+The API will run on http://localhost:3000
 
-bash
-Copy code
-npm start
-The server should now be running on http://localhost:5000.
+Running Tests
 
+To run Jest tests, use:
+
+sh
+Copy
+Edit
+npm test  
+API Documentation
+
+The Postman collection is available in the docs/ folder.
+
+How to Import Postman Collection
+
+Open Postman.
+Click Import.
+Select docs/RBAC-API.postman_collection.json and import it.
+Use the endpoints with your own test credentials.
 API Endpoints
-1. User Registration
-POST /api/user/signup
-Registers a new user with email, name, and password.
-2. Account Verification
-POST /api/user/verify-account
-Verifies the account using a verification token received via email.
-3. Login
-POST /api/user/login
-Logs the user in using their email and password. Returns a JWT token.
-4. Logout
-POST /api/user/logout
-Logs the user out by clearing the token stored in the cookies.
-5. Password Reset
-POST /api/user/resetToken
 
-Sends a password reset token to the user’s email.
-PUT /api/user/reset-password/:userId
+Authentication
 
-Resets the user’s password using the reset token.
-6. Update User Profile
-PUT /api/user/update-user-role/:userId
-Admin-only endpoint to update a user’s profile and role.
-7. Get All Users
-GET /api/user
-Admin-only endpoint to get all users.
-8. Get User by ID
-GET /api/user/:userId
-Fetches a user’s profile by their ID.
-9. Delete User
-DELETE /api/user/delete/:userId
-Admin-only endpoint to delete a user by their ID.
-Authentication Middleware
-The following middlewares are used to ensure route protection:
+POST /api/auth/signup - Register a new user
+POST /api/auth/login - Login user
+POST /api/auth/logout - Logout user
+POST /api/auth/verify-account - Verify user account
+POST /api/auth/reset-password - Reset password request
+PUT /api/auth/reset-password/:token - Set new password
 
-isAuthenticateUser: Ensures the user is authenticated by checking the presence and validity of the JWT token.
-isAdmin: Ensures the user has admin privileges.
-isShipper: Ensures the user has shipper privileges or is an admin.
-isCarrier: Ensures the user has carrier privileges or is an admin.
-Password Strength Validation
-Passwords must meet the following criteria:
+User Management (Admin Only)
 
-Minimum length of 6 characters
-At least one lowercase letter
-At least one uppercase letter
-At least one numeric digit
-At least one special character (e.g., !@#$%^&*)
-Email Template for Verification and Reset
-Verification Email: Sends a 6-digit verification token to the user’s email.
-Password Reset Email: Sends a 6-digit reset token to the user’s email.
-Error Handling
-Errors are handled globally, with appropriate status codes and messages returned for different failure scenarios (e.g., invalid token, missing fields, expired token).
+GET /api/user - Get all users
+GET /api/user/:id - Get user by ID
+DELETE /api/user/delete/:id - Delete a user
+PUT /api/user/update-user-role/:id - Update user role
 
-Example API Testing
-Register a New User
+Technologies Used
 
-Send a POST request to /api/user/signup with the following body:
-json
-Copy code
-{
-  "email": "test@example.com",
-  "name": "Test User",
-  "password": "Test@1234"
-}
-Login
-
-Send a POST request to /api/user/login with:
-json
-Copy code
-{
-  "email": "test@example.com",
-  "password": "Test@1234"
-}
-Get All Users (Admin only)
-
-Send a GET request to /api/user with a valid token in the cookies.
+Backend: Node.js, Express.js, MongoDB, Mongoose
+Authentication: JWT, bcrypt
+Testing: Jest, Supertest
+API Documentation: Postman

@@ -9,8 +9,7 @@ import bcrypt from "bcryptjs";
 dotenv.config();
 
 // Increase Jest timeout globally
-jest.setTimeout(30000); // Jest timeout for async operations
-
+jest.setTimeout(30000);
 let testUser = {
   name: "Test User",
   email: "testuser@example.com",
