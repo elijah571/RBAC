@@ -8,6 +8,7 @@
     "start" : "node backend/server.js",
     "seed": "node backend/seedAdmin.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+     "postinstall": "cd frontend && npm install",
    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "dependencies": {
