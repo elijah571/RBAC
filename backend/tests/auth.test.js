@@ -24,9 +24,9 @@ beforeAll(async () => {
       useUnifiedTopology: true 
     });
 
-    await User.deleteMany(); // Clear users before seeding
+    await User.deleteMany(); 
 
-    // Hash the password before inserting
+
     const hashedPassword = await bcrypt.hash(testUser.password, 10);
 
     // Seed test user
@@ -51,14 +51,14 @@ describe("🔹 Auth API Tests", () => {
     const newUser = {
       name: "New Test User",
       email: "newuser@example.com",
-      password: "password123*",
+      password: "Str0ngP@ssw0rd!",
     };
-
+  
     const res = await request(app).post("/api/auth/signup").send(newUser);
     expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty("message", "User created successfully");
+    expect(res.body).toHaveProperty("message", "User successfully created. Check your email for verification.");
   });
-
+  
   test("2️⃣ Should log in with correct credentials", async () => {
     const res = await request(app).post("/api/auth/login").send({
       email: testUser.email,
@@ -76,6 +76,6 @@ describe("🔹 Auth API Tests", () => {
     });
 
     expect(res.statusCode).toBe(401);
-    expect(res.body).toHaveProperty("error", "Invalid credentials"); // ✅ Fixed expected response
+    expect(res.body).toHaveProperty("error", "Invalid credentials");
   });
 });

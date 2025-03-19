@@ -12,14 +12,13 @@ export const signUpController = async (req, res) => {
         });
     } catch (error) {
         console.error("Signup error:", error.message);
-        
-        // Ensure weak password returns 400
-        const statusCode = error.message === "Password must be strong" ? 400 : 400;
-        
+
+        // Corrected error handling
+        const statusCode = error.message === "Password must be strong" ? 400 : 500;
+
         return res.status(statusCode).json({ message: error.message });
     }
 };
-
 
 // Account Verification Controller
 export const verifyAccountController = async (req, res) => {
@@ -51,8 +50,8 @@ export const loginController = async (req, res) => {
         console.error("Login error:", error.message);
 
         // Ensure incorrect credentials return 401 instead of 400
-        const statusCode = error.message === "Invalid password" ? 401 : 400;
-        return res.status(statusCode).json({ error: "Invalid credentials" }); // Updated error response
+    
+        return res.status(401).json({ error: "Invalid credentials" }); // Updated error response
     }
 };
 
