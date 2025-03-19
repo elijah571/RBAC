@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "main": "server.js",
-  "scripts": {
-    "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js",
-    "seed": "node backend/seedAdmin.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-   "build": "npm install && cd frontend && npm install && npm run build"
-  },
+"scripts": {
+  "postinstall": "cd frontend && npm install vite",
+  "dev": "nodemon backend/server.js",
+  "start": "node backend/server.js",
+  "seed": "node backend/seedAdmin.js",
+  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+  "build": "npm install && npm install --prefix frontend && cd frontend && npm run build"
+},
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
