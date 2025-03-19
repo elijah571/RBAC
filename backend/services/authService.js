@@ -87,21 +87,18 @@ export const resetPasswordToken = async (email) => {
 
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpiresAt = resetTokenExpiresAt;
-
+       const resetLink = `https://yourdomain.com/reset-password/${resetToken}`;
     await user.save();
-    await sendResetEmail(email, resetToken);
+    await sendResetEmail(email, resetLink);
 
     return user;
 };
+//reset password
+export const resetPassword = async (resetToken, newPassword) => {
+    const user = await User.findOne({ resetPasswordToken: resetToken });
 
-export const resetPassword = async (userId, resetToken, newPassword) => {
-    const user = await User.findById(userId);
     if (!user) {
-        throw new Error('User not found');
-    }
-
-    if (user.resetPasswordToken !== resetToken) {
-        throw new Error('Invalid reset token');
+        throw new Error('Invalid or expired reset token');
     }
 
     if (user.resetPasswordExpiresAt < Date.now()) {

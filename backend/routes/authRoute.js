@@ -23,9 +23,8 @@ authRouter.post('/login', loginController);  // Use loginController
 
 // User logout
 authRouter.post('/logout', logoutUser);
-
 // Request password reset token
-authRouter.post('/resetToken', resetPasswordTokenController);  // Use resetPasswordTokenController
+authRouter.post('/reset-token', resetPasswordTokenController); 
 
-// Reset password
-authRouter.put('/reset-password/:userId', isAuthenticateUser, resetPasswordController);  // Use resetPasswordController
+// Reset password (Now using resetToken instead of userId)
+authRouter.put('/reset-password/:resetToken', resetPasswordController); 

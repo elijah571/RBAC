@@ -67,13 +67,12 @@ export const logoutUser = async (req, res) => {
     return res.status(200).json({ message: "Logged out successfully" });
 };
 
-
 // Reset Password Token Controller
 export const resetPasswordTokenController = async (req, res) => {
     const { email } = req.body;
     try {
         await resetPasswordToken(email);
-        return res.status(200).json({ message: 'Reset password token sent to email.' });
+        return res.status(200).json({ message: 'Reset password link sent to email.' });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
@@ -81,10 +80,11 @@ export const resetPasswordTokenController = async (req, res) => {
 
 // Reset Password Controller
 export const resetPasswordController = async (req, res) => {
-    const { userId } = req.params;
-    const { resetToken, newPassword } = req.body;
+    const { resetToken } = req.params; // Extract token from URL
+    const { newPassword } = req.body; // Get new password
+
     try {
-        await resetPassword(userId, resetToken, newPassword);
+        await resetPassword(resetToken, newPassword);
         return res.status(200).json({ message: 'Password reset successfully' });
     } catch (error) {
         return res.status(400).json({ message: error.message });
