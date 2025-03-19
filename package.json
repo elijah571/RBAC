@@ -8,7 +8,7 @@
     "start" : "node backend/server.js",
     "seed": "node backend/seedAdmin.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "build": "npm install && npm install --prefix frontend && cd frontend && npx vite build"
+    "build": "npm install && npm install --prefix frontend && npm run build "
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
