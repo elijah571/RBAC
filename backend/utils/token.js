@@ -1,4 +1,3 @@
-// utils/token.js
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (userId) => {

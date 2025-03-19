@@ -45,13 +45,12 @@ export const loginController = async (req, res) => {
             maxAge: 30 * 24 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ message: 'Login successful', user, token }); // Added token
+        return res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
         console.error("Login error:", error.message);
 
-        // Ensure incorrect credentials return 401 instead of 400
     
-        return res.status(401).json({ error: "Invalid credentials" }); // Updated error response
+        return res.status(401).json({ error: "Invalid credentials" }); 
     }
 };
 
@@ -80,8 +79,8 @@ export const resetPasswordTokenController = async (req, res) => {
 
 // Reset Password Controller
 export const resetPasswordController = async (req, res) => {
-    const { resetToken } = req.params; // Extract token from URL
-    const { newPassword } = req.body; // Get new password
+    const { resetToken } = req.params; 
+    const { newPassword } = req.body; 
 
     try {
         await resetPassword(resetToken, newPassword);

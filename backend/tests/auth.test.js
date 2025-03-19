@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals"; // Ensure Jest globals are loaded
+import { jest } from "@jest/globals";
 import request from "supertest";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -13,7 +13,7 @@ jest.setTimeout(30000);
 let testUser = {
   name: "Test User",
   email: "testuser@example.com",
-  password: "TestPassword123*", // Ensure it matches the seeded password
+  password: "TestPassword123*",
 };
 
 beforeAll(async () => {
@@ -32,21 +32,21 @@ beforeAll(async () => {
     await User.create({
       name: testUser.name,
       email: testUser.email,
-      password: hashedPassword, // Store hashed password
+      password: hashedPassword, 
     });
 
-    console.log("✅ Test user seeded successfully.");
+    console.log("Test user seeded successfully.");
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
+    console.error(" MongoDB connection error:", error);
   }
-}, 30000); // Explicit timeout for `beforeAll()`
+}, 30000); 
 
 afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("🔹 Auth API Tests", () => {
-  test("1️⃣ Should sign up a new user", async () => {
+describe(" Auth API Tests", () => {
+  test("1 Should sign up a new user", async () => {
     const newUser = {
       name: "New Test User",
       email: "newuser@example.com",
@@ -58,17 +58,17 @@ describe("🔹 Auth API Tests", () => {
     expect(res.body).toHaveProperty("message", "User successfully created. Check your email for verification.");
   });
   
-  test("2️⃣ Should log in with correct credentials", async () => {
+  test("2 Should log in with correct credentials", async () => {
     const res = await request(app).post("/api/auth/login").send({
       email: testUser.email,
-      password: testUser.password, // Use the correct password
+      password: testUser.password, 
     });
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
   });
 
-  test("3️⃣ Should reject login with wrong credentials", async () => {
+  test("3 Should reject login with wrong credentials", async () => {
     const res = await request(app).post("/api/auth/login").send({
       email: testUser.email,
       password: "*1wrongpassword",

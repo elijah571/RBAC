@@ -15,11 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-
-// Sample route
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
 //api 
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)

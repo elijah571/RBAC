@@ -3,7 +3,7 @@ import { User } from '../model/users/user.js';
 
 // Middleware to check if the user is authenticated
 export const isAuthenticateUser = async (req, res, next) => {
-    let token = req.cookies?.token; // Use optional chaining to directly check for the token
+    let token = req.cookies?.token;
 
     if (!token) {
         return res.status(401).json({ message: "Authorization token is missing" });

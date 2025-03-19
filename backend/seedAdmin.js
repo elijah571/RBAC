@@ -4,12 +4,9 @@ import { User } from './model/users/user.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-// Load environment variables from a .env file
 dotenv.config();
 
-// Connect to the MongoDB database
 connect();
-// Create an Admin user and save it to the database
 const createAdmin = async () => {
     try {
         // Check if Admin already exist
@@ -28,7 +25,6 @@ const createAdmin = async () => {
             isVerified: true,
         });
 
-        // Save the admin user to the database
         await adminUser.save();
         console.log('Admin user created successfully.');
         mongoose.connection.close(); 

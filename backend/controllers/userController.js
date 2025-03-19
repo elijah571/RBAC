@@ -1,4 +1,3 @@
-// /controllers/userController.js
 import { getAllUsers, getUserById, updateProfile, deleteUserById } from '../services/userService.js';
 
 export const getAllUsersController = async (req, res) => {
