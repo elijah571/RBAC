@@ -20,10 +20,9 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/user",
-					"protocol": "http",
-					"host": ["localhost"],
-					"port": "3000",
+					"raw": "https://rbac-tdba.onrender.com/api/user",
+					"protocol": "https",
+					"host": ["rbac-tdba", "onrender", "com"],
 					"path": ["api", "user"]
 				}
 			},
@@ -44,10 +43,9 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/user/{{userId}}",
-					"protocol": "http",
-					"host": ["localhost"],
-					"port": "3000",
+					"raw": "https://rbac-tdba.onrender.com/api/user/{{userId}}",
+					"protocol": "https",
+					"host": ["rbac-tdba", "onrender", "com"],
 					"path": ["api", "user", "{{userId}}"]
 				}
 			},
@@ -65,10 +63,9 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/user/delete/{{userId}}",
-					"protocol": "http",
-					"host": ["localhost"],
-					"port": "3000",
+					"raw": "https://rbac-tdba.onrender.com/api/user/delete/{{userId}}",
+					"protocol": "https",
+					"host": ["rbac-tdba", "onrender", "com"],
 					"path": ["api", "user", "delete", "{{userId}}"]
 				}
 			},
@@ -100,10 +97,9 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/user/update-user-role/{{userId}}",
-					"protocol": "http",
-					"host": ["localhost"],
-					"port": "3000",
+					"raw": "https://rbac-tdba.onrender.com/api/user/update-user-role/{{userId}}",
+					"protocol": "https",
+					"host": ["rbac-tdba", "onrender", "com"],
 					"path": ["api", "user", "update-user-role", "{{userId}}"]
 				}
 			},
