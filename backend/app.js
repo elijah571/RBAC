@@ -15,8 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-//api 
-app.use('/api/user', userRouter)
-app.use('/api/auth', authRouter)
-connect()
+// API routes
+app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
 
+// Connect to the database
+connect();

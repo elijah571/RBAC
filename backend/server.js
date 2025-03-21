@@ -1,9 +1,7 @@
 import express from 'express';
 import path from 'path';
-import { app } from './app.js'; // Assuming you have app.js
-
+import { app } from './app';
 const port = process.env.PORT || 3000;
-
 const __dirname = path.resolve(); // Get the absolute path
 
 // Serve static files from React build (dist folder)
